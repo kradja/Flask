@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+ 
+<head>
+ 
+    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+ 
+    <link href="http://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
+	
+
+</head>
+ 
+<body>
+	{% extends "base.html" %}
+	
+	{% block content %}
+		<h1>Hello, {{ current_user.username }}!</h1>
+		
+		{% for list in ulist %}
+			<div><p>{{ list.user.username }} used on: <b>{{ list.time }}</b></p></div>
+		{% endfor %}
+	
+	
+		<h1>Input</h1>
+		<form action="" method="post">
+			{{ form.hidden_tag() }}
+			<p>
+				Frequency:<br>
+				<{{form.frequency}}><br>
+			<p>
+			
+			<p>
+				Amplitude:<br>
+				<{{form.amplitude}}><br>
+			<p>
+			
+			<p>{{ form.submit() }}</p>
+		</form>
+		
+	
+	{% endblock %}
+</body>
+ 
+</html>
