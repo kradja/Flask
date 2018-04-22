@@ -22,6 +22,10 @@ class LoginForm(FlaskForm):
     submit = SubmitField('Sign In')
 	
 class InputForm(FlaskForm):
-	frequency = IntegerField('Frequency', validators=[DataRequired()])
-	amplitude = IntegerField('Amplitude', validators=[DataRequired()])
+	dc1 = IntegerField('Duty Cycle 1', validators=[DataRequired()])
+	dc2 = IntegerField('Duty Cycle 2', validators=[DataRequired()])
+	dc3 = IntegerField('Duty Cycle 1', validators=[DataRequired()])
+	dc4 = IntegerField('Duty Cycle 2', validators=[DataRequired()])
+	dc5 = IntegerField('Duty Cycle 1', validators=[DataRequired()])
+	dc6 = IntegerField('Duty Cycle 2', validators=[DataRequired()])
 	submit = SubmitField('Send')

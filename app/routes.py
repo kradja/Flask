@@ -9,8 +9,12 @@ from app.models import User, Userval
 #global temp_freq
 #global temp_amp
 
-temp_freq = 0
-temp_amp = 0 
+temp_d1 = 0
+temp_d2 = 0 
+temp_d3 = 0
+temp_d4 = 0 
+temp_d5 = 0
+temp_d6 = 0 
 #app = Flask(__name__)
 #app.config['SECRET_KEY'] = 'kradja'
 @app.route("/", methods=('GET', 'POST'))
@@ -28,12 +32,16 @@ def index():
 
 	cuserval = Userval.query.get(current_user.id)
 	print(cuserval)
-	if form.validate_on_submit():
-		print(form.frequency.data)
-		cuserval.freq = form.frequency.data
-		cuserval.amp = form.amplitude.data
-		print(cuserval.freq)
-		print(cuserval.amp)
+	if request.method == 'POST': #form.validate_on_submit():
+		print(form.dc1.data)
+		cuserval.d1 = form.dc1.data
+		cuserval.d2 = form.dc2.data
+		cuserval.d3 = form.dc3.data
+		cuserval.d4 = form.dc4.data
+		cuserval.d5 = form.dc5.data
+		cuserval.d6 = form.dc6.data
+		print(cuserval.d1)
+		print(cuserval.d2)
 		db.session.commit()
 		get_tasks()
 	
@@ -86,7 +94,7 @@ def register():
 		user.set_password(form.password.data)
 		db.session.add(user)
 		
-		userval = Userval(freq=0,amp=0)
+		userval = Userval(d1=0,d2=0,d3=0,d4=0,d5=0,d6=0)
 		db.session.add(userval)
 		db.session.commit()
 		flash('You are now a registered user!')
@@ -96,17 +104,25 @@ def register():
 
 @app.route('/api/data', methods=['GET'])
 def get_tasks():
-	global temp_freq
-	global temp_amp
+	global temp_d1
+	global temp_d2
+	global temp_d3
+	global temp_d4
+	global temp_d5
+	global temp_d6
 	print('HELLO')
 	print(request.remote_addr)
 	if current_user.is_authenticated:
 		#temp = current_user.id
 		cuserval = Userval.query.get(current_user.id)
-		temp_freq = cuserval.freq
-		temp_amp = cuserval.amp
-		return jsonify({'Frequency': temp_freq, 'Amplitude': temp_amp})
-	return jsonify({'Frequency': temp_freq, 'Amplitude': temp_amp})
+		temp_d1 = cuserval.d1
+		temp_d2 = cuserval.d2
+		temp_d3 = cuserval.d3
+		temp_d4 = cuserval.d4
+		temp_d5 = cuserval.d5
+		temp_d6 = cuserval.d6
+		return jsonify({'Duty Cycle 1': temp_d1, 'Duty Cycle 2': temp_d2, 'Duty Cycle 3': temp_d3, 'Duty Cycle 4': temp_d4, 'Duty Cycle 5': temp_d5, 'Duty Cycle 6': temp_d6})
+	return jsonify({'Duty Cycle 1': temp_d1, 'Duty Cycle 2': temp_d2, 'Duty Cycle 3': temp_d3, 'Duty Cycle 4': temp_d4, 'Duty Cycle 5': temp_d5, 'Duty Cycle 6': temp_d6})
 	#else:
 	#	cuserval = Userval.query.get(temp)
 		
