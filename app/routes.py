@@ -6,8 +6,6 @@ from flask_login import current_user, login_user, logout_user, login_required
 from app import app, db
 from app.models import User, Userval
 
-#global temp_freq
-#global temp_amp
 
 temp_d1 = 0
 temp_d2 = 0 
@@ -15,6 +13,8 @@ temp_d3 = 0
 temp_d4 = 0 
 temp_d5 = 0
 temp_d6 = 0 
+temp_on_off = 0
+freqlist = []
 #app = Flask(__name__)
 #app.config['SECRET_KEY'] = 'kradja'
 @app.route("/", methods=('GET', 'POST'))
@@ -22,6 +22,7 @@ temp_d6 = 0
 @login_required
 def index():
 	print('hello')
+	global freqlist
 	#form = InputForm(request.form)
 	
 	#if request.method == 'POST': # Validator to verify that the input fulfills some criteron.
@@ -31,17 +32,25 @@ def index():
 	form = InputForm()
 
 	cuserval = Userval.query.get(current_user.id)
-	print(cuserval)
+
 	if request.method == 'POST': #form.validate_on_submit():
-		print(form.dc1.data)
+		freqlist = []
+
 		cuserval.d1 = form.dc1.data
 		cuserval.d2 = form.dc2.data
 		cuserval.d3 = form.dc3.data
 		cuserval.d4 = form.dc4.data
 		cuserval.d5 = form.dc5.data
 		cuserval.d6 = form.dc6.data
-		print(cuserval.d1)
-		print(cuserval.d2)
+		cuserval.on_off = form.cv.data
+		
+		freqlist.append(steptofreq(form.dc1.data))
+		freqlist.append(steptofreq(form.dc2.data))
+		freqlist.append(steptofreq(form.dc3.data))
+		freqlist.append(steptofreq(form.dc4.data))
+		freqlist.append(steptofreq(form.dc5.data))
+		freqlist.append(steptofreq(form.dc6.data))
+
 		db.session.commit()
 		get_tasks()
 	
@@ -62,7 +71,7 @@ def index():
 	#frequencyval = request.form.get("freq_num","")
 	
 	
-	return render_template('index.html', title = 'Home', ulist = listofuses, cuserval = cuserval,form = form)#, frequencyval = frequencyval)
+	return render_template('index.html', title = 'Home', ulist = listofuses, cuserval = cuserval,form = form, freqlist = freqlist)
 
 @app.route("/login", methods=('GET', 'POST'))
 def login():
@@ -80,6 +89,23 @@ def login():
 			return redirect(url_for('login'))
 		
 		login_user(user, remember=form.remember_me.data)
+		#NEW LIST
+		users = User.query.all()
+		print(users)
+		users.remove(User.query.get(current_user.id))
+		for u in users:
+			print(u)
+			cuserval = Userval.query.get(u.id)
+			print(cuserval.d2)
+			cuserval.d1 = -1 * u.id
+			cuserval.d2 = -1 * u.id
+			cuserval.d3 = -1 * u.id
+			cuserval.d4 = -1 * u.id
+			cuserval.d5 = -1 * u.id
+			cuserval.d6 = -1 * u.id
+			cuserval.on_off = -1 * u.id
+			print(cuserval.d2)
+		db.session.commit()
 		return redirect(url_for('index'))	
 	
 	return render_template('login.html', title = 'Sign In',form = form)
@@ -93,15 +119,30 @@ def register():
 		user = User(username=form.username.data)
 		user.set_password(form.password.data)
 		db.session.add(user)
+		print(user)
+		print(user.id)
 		
-		userval = Userval(d1=0,d2=0,d3=0,d4=0,d5=0,d6=0)
+		userval = Userval(d1=user.id,d2=user.id,d3=user.id,d4=user.id,d5=user.id,d6=user.id)
 		db.session.add(userval)
 		db.session.commit()
 		flash('You are now a registered user!')
 		return redirect(url_for('login'))
 	return render_template('register.html', title='Register', form=form)
 	
-
+def steptofreq(x):
+	p1 = -0.001135023513954
+	p2 = 1.286883232524425
+	p3 = -5.826589364996270e+02
+	p4 = 1.316885615266447e+05
+	p5 = -1.485758972139023e+07
+	p6 = 6.694456192160354e+08
+	
+	if x == None:
+		x = 0
+	
+	res = (p1* x**5 + p2 * x**4 + p3 * x**3 + p4 * x**2 + p5 * x+ p6) * 1E-6
+	return 1/res
+	
 @app.route('/api/data', methods=['GET'])
 def get_tasks():
 	global temp_d1
@@ -110,6 +151,7 @@ def get_tasks():
 	global temp_d4
 	global temp_d5
 	global temp_d6
+	global temp_on_off
 	print('HELLO')
 	print(request.remote_addr)
 	if current_user.is_authenticated:
@@ -121,13 +163,12 @@ def get_tasks():
 		temp_d4 = cuserval.d4
 		temp_d5 = cuserval.d5
 		temp_d6 = cuserval.d6
-		return jsonify({'Duty Cycle 1': temp_d1, 'Duty Cycle 2': temp_d2, 'Duty Cycle 3': temp_d3, 'Duty Cycle 4': temp_d4, 'Duty Cycle 5': temp_d5, 'Duty Cycle 6': temp_d6})
-	return jsonify({'Duty Cycle 1': temp_d1, 'Duty Cycle 2': temp_d2, 'Duty Cycle 3': temp_d3, 'Duty Cycle 4': temp_d4, 'Duty Cycle 5': temp_d5, 'Duty Cycle 6': temp_d6})
-	#else:
-	#	cuserval = Userval.query.get(temp)
+		temp_on_off = cuserval.on_off
 		
-	#else:
-	#	return jsonify({'Frequency': cuserval.freq, 'Amplitude': cuserval.amp})	
+		
+		return jsonify({'Duty Cycle 1': temp_d1, 'Duty Cycle 2': temp_d2, 'Duty Cycle 3': temp_d3, 'Duty Cycle 4': temp_d4, 'Duty Cycle 5': temp_d5, 'Duty Cycle 6': temp_d6, 'Current or Voltage': temp_on_off})
+	return jsonify({'Duty Cycle 1': temp_d1, 'Duty Cycle 2': temp_d2, 'Duty Cycle 3': temp_d3, 'Duty Cycle 4': temp_d4, 'Duty Cycle 5': temp_d5, 'Duty Cycle 6': temp_d6, 'Current or Voltage': temp_on_off})
+
 	
 @app.route('/logout')
 def logout():

@@ -1,0 +1,20 @@
+body {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.navbar {
+      height: 10px;
+      max-height: 10px;
+	  min-height: 10px;
+}
+
+@media screen and (max-width: 600px) {
+	.navbar, .navbar-inner { max-height: 50px !important }
+}
+
+.navbar-nav > li > a{ padding: 10px 10px }
+
+.navbar-brand{ padding-top: 10px; }
+
+.navbar-brand{ padding-right: 10px; }

@@ -1,0 +1,51 @@
+{% extends 'bootstrap/base.html' %}
+
+	<head>
+		<link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+	</head>
+
+    {% block title %}
+		{% if title %}{{ title }} - Microblog{% else %}Welcome to TNSWave{% endif %}
+	{% endblock %}
+
+	{% block navbar %}
+	<nav class="navbar navbar-default" role="navigation">
+	  <div class="container-fluid">
+		<!-- Brand and toggle get grouped for better mobile display -->
+		<div class="navbar-header">
+			<ul class="nav navbar-nav navbar-left">
+			<img src="/static/capstone_logo.jpg" alt="logo" style="width: 20%; height: 20%">
+			<a class="navbar-brand" href="#">TNSWave</a>
+			</ul>
+		</div>
+
+		<!-- Collect the nav links, forms, and other content for toggling -->
+		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+		  <ul class="nav navbar-nav navbar-right">
+			{% if current_user.is_anonymous %}
+				<li><a href="{{ url_for('index') }}">{{ ('Home') }}</a></li>
+				<li><a href="{{ url_for('login') }}">{{ ('Login') }}</a></li>
+			{% else %}
+				<li><a href="{{ url_for('index') }}">{{ ('Home') }}</a></li>
+				<li><a href="{{ url_for('logout') }}">{{ ('Logout') }}</a></li>
+			{% endif %}
+		  </ul>
+		</div><!-- /.navbar-collapse -->
+	  </div><!-- /.container-fluid -->
+	</nav>
+	{% endblock %}
+	
+	{% block content %}
+    <div class="container">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        {% endif %}
+        {% endwith %}
+
+        {# application content needs to be provided in the app_content block #}
+        {% block app_content %}{% endblock %}
+    </div>
+	{% endblock %}

@@ -1,64 +1,88 @@
-<!DOCTYPE html>
-<html lang="en">
- 
-<head>
- 
-    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
- 
-    <link href="http://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
-	
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
 
+<head>
+		<link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+		<!--<script>
+		function updateTextInput(val) {
+			document.getElementById('dc1').value=val;
+			document.write(dc1.value);
+        }
+		</script>-->
 </head>
- 
-<body>
-	{% extends "base.html" %}
-	
-	{% block content %}
-		<h1>Hello, {{ current_user.username }}!</h1>
+
+{% block app_content %}
+	<h1>Hello, {{ current_user.username }}!</h1>
+
+	<div class="row">
+		<div class="col-sm-7 well" style="background-color: #ffffff">
+			<h1>Input</h1>
+			<form action="" method="post">
+				{{ form.hidden_tag() }}
+				<p>
+					Duty Cycle 1:
+					<!--<script>
+						updateTextInput({{ form.dc1.data }});
+					</script>-->
+					{{ form.dc1.data }}<br>
+					{{form.dc1(min = 0, max = 255)}}
+				<p>
+				
+				<!--<input type="range" name="ageInputName" id="ageInputId" value= {{ form.dc1.data }} min="0" max="255" oninput="ageOutputId.value = ageInputId.value">
+				<output name="ageOutputName" id="ageOutputId">{{ form.dc1.data }}</output>-->
+				
+				<div><p>Frequency: <b>{{ freqlist[0] }}</b></p></div>
+				<p>
+					Duty Cycle 2:
+					{{ form.dc2.data }}<br>
+					{{form.dc2(min = 0, max = 255)}}
+				<p>
+				<div><p>Frequency: <b>{{ freqlist[1] }}</b></p></div>
+				<p>
+					Duty Cycle 3:
+					{{ form.dc3.data }}<br>
+					{{form.dc3(min = 0, max = 255)}}
+				<p>
+				<div><p>Frequency: <b>{{ freqlist[2] }}</b></p></div>
+				
+				<p>
+					Duty Cycle 4:
+					{{ form.dc4.data }}<br>
+					{{form.dc4(min = 0, max = 255)}}
+				<p>
+				<div><p>Frequency: <b>{{ freqlist[3] }}</b></p></div>
+				
+				<p>
+					Duty Cycle 5:
+					{{ form.dc5.data }}<br>
+					{{form.dc5(min = 0, max = 255)}}
+				<p>
+				<div><p>Frequency: <b>{{ freqlist[4] }}</b></p></div>
+				
+				<p>
+					Duty Cycle 6:
+					{{ form.dc6.data }}<br>
+					{{form.dc6(min = 0, max = 255)}}
+				<p>
+				<div><p>Frequency: <b>{{ freqlist[5] }}</b></p></div>
+				
+				<p>
+					Current or Voltage:<br>
+					{{form.cv}}<br>
+				<p>
+				
+				<p>{{ form.submit() }}</p>
+			</form>
+		</div>
 		
-		{% for list in ulist %}
-			<div><p>{{ list.user.username }} used on: <b>{{ list.time }}</b></p></div>
-		{% endfor %}
-	
-	
-		<h1>Input</h1>
-		<form action="" method="post">
-			{{ form.hidden_tag() }}
-			<p>
-				Duty Cycle 1:<br>
-				<{{form.dc1}}><br>
-			<p>
-			
-			<p>
-				Duty Cycle 2:<br>
-				<{{form.dc2}}><br>
-			<p>
-			
-			<p>
-				Duty Cycle 3:<br>
-				<{{form.dc3}}><br>
-			<p>
-			
-			<p>
-				Duty Cycle 4:<br>
-				<{{form.dc4}}><br>
-			<p>
-			
-			<p>
-				Duty Cycle 5:<br>
-				<{{form.dc5}}><br>
-			<p>
-			
-			<p>
-				Duty Cycle 6:<br>
-				<{{form.dc6}}><br>
-			<p>
-			
-			<p>{{ form.submit() }}</p>
-		</form>
+		<div class="col-sm-1">
+		</div>
 		
+		<div class="col-sm-2 well" style="background-color: #ffffff">
+			{% for list in ulist %}
+				<div><p>{{ list.user.username }} used on: <b>{{ list.time }}</b></p></div>
+			{% endfor %}
+		</div>
+	</div>		
 	
-	{% endblock %}
-</body>
- 
-</html>
+{% endblock %}

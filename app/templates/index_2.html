@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+ 
+<head>
+ 
+    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+ 
+    <link href="http://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
+	
+
+</head>
+ 
+<body>
+	{% extends "base.html" %}
+	
+	{% block content %}
+		<h1>Hello, {{ current_user.username }}!</h1>
+		
+		{% for list in ulist %}
+			<div><p>{{ list.user.username }} used on: <b>{{ list.time }}</b></p></div>
+		{% endfor %}
+	
+	
+		<h1>Input</h1>
+		<form action="" method="post">
+			{{ form.hidden_tag() }}
+			<p>
+				Duty Cycle 1:<br>
+				<{{form.dc1}}><br>
+			<p>
+			
+			<p>
+				Duty Cycle 2:<br>
+				<{{form.dc2}}><br>
+			<p>
+			
+			<p>
+				Duty Cycle 3:<br>
+				<{{form.dc3}}><br>
+			<p>
+			
+			<p>
+				Duty Cycle 4:<br>
+				<{{form.dc4}}><br>
+			<p>
+			
+			<p>
+				Duty Cycle 5:<br>
+				<{{form.dc5}}><br>
+			<p>
+			
+			<p>
+				Duty Cycle 6:<br>
+				<{{form.dc6}}><br>
+			<p>
+			
+			<p>
+				Current or Voltage:<br>
+				<{{form.cv}}><br>
+			<p>
+			
+			<p>{{ form.submit() }}</p>
+		</form>
+		
+	
+	{% endblock %}
+</body>
+ 
+</html>

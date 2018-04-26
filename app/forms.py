@@ -1,6 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, IntegerField
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
+from wtforms.fields.html5 import IntegerRangeField
 from app.models import User
 
 class RegistrationForm(FlaskForm):
@@ -22,10 +23,12 @@ class LoginForm(FlaskForm):
     submit = SubmitField('Sign In')
 	
 class InputForm(FlaskForm):
-	dc1 = IntegerField('Duty Cycle 1', validators=[DataRequired()])
-	dc2 = IntegerField('Duty Cycle 2', validators=[DataRequired()])
-	dc3 = IntegerField('Duty Cycle 1', validators=[DataRequired()])
-	dc4 = IntegerField('Duty Cycle 2', validators=[DataRequired()])
-	dc5 = IntegerField('Duty Cycle 1', validators=[DataRequired()])
-	dc6 = IntegerField('Duty Cycle 2', validators=[DataRequired()])
+	dc1 = IntegerRangeField('Duty Cycle 1', validators=[DataRequired()])
+	dc2 = IntegerRangeField('Duty Cycle 2', validators=[DataRequired()])
+	dc3 = IntegerRangeField('Duty Cycle 3', validators=[DataRequired()])
+	dc4 = IntegerRangeField('Duty Cycle 4', validators=[DataRequired()])
+	dc5 = IntegerRangeField('Duty Cycle 5', validators=[DataRequired()])
+	dc6 = IntegerRangeField('Duty Cycle 6', validators=[DataRequired()])
+	
+	cv = BooleanField('Current or Voltage', validators=[DataRequired()])
 	submit = SubmitField('Send')

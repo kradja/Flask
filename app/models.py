@@ -13,6 +13,7 @@ class Userval(db.Model):
 	d5 = db.Column(db.Integer, index=True, unique=True)
 	d6 = db.Column(db.Integer, index=True, unique=True)
 	
+	on_off = db.Column(db.Integer, index=True, unique=True)
 	#freq = db.Column(db.Integer, index=True, unique=True)
 	#amp = db.Column(db.Integer, index=True, unique=True)
 	user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
