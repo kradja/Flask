@@ -166,8 +166,8 @@ def get_tasks():
 		temp_on_off = cuserval.on_off
 		
 		
-		return jsonify({'Duty Cycle 1': temp_d1, 'Duty Cycle 2': temp_d2, 'Duty Cycle 3': temp_d3, 'Duty Cycle 4': temp_d4, 'Duty Cycle 5': temp_d5, 'Duty Cycle 6': temp_d6, 'Current or Voltage': temp_on_off})
-	return jsonify({'Duty Cycle 1': temp_d1, 'Duty Cycle 2': temp_d2, 'Duty Cycle 3': temp_d3, 'Duty Cycle 4': temp_d4, 'Duty Cycle 5': temp_d5, 'Duty Cycle 6': temp_d6, 'Current or Voltage': temp_on_off})
+		return jsonify({'Cathode Gain': temp_d1, 'Delay': temp_d2, 'Cathode Pulse Width': temp_d3, 'Frequency': temp_d4, 'Anode Gain': temp_d5, 'Anode Pulse Width': temp_d6, 'Current or Voltage': temp_on_off})
+	return jsonify({'Cathode Gain': temp_d1, 'Delay': temp_d2, 'Cathode Pulse Width': temp_d3, 'Frequency': temp_d4, 'Anode Gain': temp_d5, 'Anode Pulse Width': temp_d6, 'Current or Voltage': temp_on_off})
 
 	
 @app.route('/logout')

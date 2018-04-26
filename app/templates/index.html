@@ -15,12 +15,12 @@
 	<h1>Hello, {{ current_user.username }}!</h1>
 
 	<div class="row">
+		<h1><font size="10">Input</font></h1>
 		<div class="col-sm-7 well" style="background-color: #ffffff">
-			<h1>Input</h1>
 			<form action="" method="post">
 				{{ form.hidden_tag() }}
 				<p>
-					Duty Cycle 1:
+					Cathode Gain:
 					<!--<script>
 						updateTextInput({{ form.dc1.data }});
 					</script>-->
@@ -31,40 +31,40 @@
 				<!--<input type="range" name="ageInputName" id="ageInputId" value= {{ form.dc1.data }} min="0" max="255" oninput="ageOutputId.value = ageInputId.value">
 				<output name="ageOutputName" id="ageOutputId">{{ form.dc1.data }}</output>-->
 				
-				<div><p>Frequency: <b>{{ freqlist[0] }}</b></p></div>
+				<div><p><font size="1">Cathode Gain: <b>{{ freqlist[0] }}</b></font></p></div>
 				<p>
-					Duty Cycle 2:
+					Delay:
 					{{ form.dc2.data }}<br>
 					{{form.dc2(min = 0, max = 255)}}
 				<p>
-				<div><p>Frequency: <b>{{ freqlist[1] }}</b></p></div>
+				<div><p><font size="1">Delay: <b>{{ freqlist[1] }}</b></font></p></div>
 				<p>
-					Duty Cycle 3:
+					Cathode Pulse Width:
 					{{ form.dc3.data }}<br>
 					{{form.dc3(min = 0, max = 255)}}
 				<p>
-				<div><p>Frequency: <b>{{ freqlist[2] }}</b></p></div>
+				<div><p><font size="1">Cathode Pulse Width: <b>{{ freqlist[2] }}</b></font></p></div>
 				
 				<p>
-					Duty Cycle 4:
+					Frequency:
 					{{ form.dc4.data }}<br>
 					{{form.dc4(min = 0, max = 255)}}
 				<p>
-				<div><p>Frequency: <b>{{ freqlist[3] }}</b></p></div>
+				<div><p><font size="1">Frequency: <b>{{ freqlist[3] }}</b></font></p></div>
 				
 				<p>
-					Duty Cycle 5:
+					Anode Gain:
 					{{ form.dc5.data }}<br>
 					{{form.dc5(min = 0, max = 255)}}
 				<p>
-				<div><p>Frequency: <b>{{ freqlist[4] }}</b></p></div>
+				<div><p><font size="1">Anode Gain: <b>{{ freqlist[4] }}</b></font></p></div>
 				
 				<p>
-					Duty Cycle 6:
+					Anode Pulse Width:
 					{{ form.dc6.data }}<br>
 					{{form.dc6(min = 0, max = 255)}}
 				<p>
-				<div><p>Frequency: <b>{{ freqlist[5] }}</b></p></div>
+				<div><p><font size="1">Anode Pulse Width: <b>{{ freqlist[5] }}</b></font></p></div>
 				
 				<p>
 					Current or Voltage:<br>
@@ -78,6 +78,7 @@
 		<div class="col-sm-1">
 		</div>
 		
+		<!--<h2><font size="10">List of Users</font></h2>-->
 		<div class="col-sm-2 well" style="background-color: #ffffff">
 			{% for list in ulist %}
 				<div><p>{{ list.user.username }} used on: <b>{{ list.time }}</b></p></div>
